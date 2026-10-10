@@ -130,7 +130,8 @@ img { display: block; }
 .biz div { display: flex; gap: 8px; }
 .biz dt { font-weight: 600; }
 .biz dt .en-inline { font-size: 0.85em; }
-.biz dd { margin: 0; min-width: 2em; }
+.biz dd { margin: 0; }
+.biz div:has(dd:empty) { display: none; }
 .copy { margin: 0; }
 
 @media (max-width: 720px) {
