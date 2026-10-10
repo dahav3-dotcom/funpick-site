@@ -1,0 +1,30 @@
+name: Domain check
+
+# 수동 실행 전용: funpick.kr DNS와 HTTPS 응답을 GitHub 서버에서 확인합니다.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: DNS
+        run: |
+          for r in "funpick.kr A" "funpick.kr AAAA" "www.funpick.kr CNAME" "www.funpick.kr A"; do
+            set -- $r
+            for ns in 8.8.8.8 1.1.1.1; do
+              echo "$1 $2 @$ns: $(dig +short "$1" "$2" @"$ns" | tr '\n' ' ')"
+            done
+          done
+      - name: HTTP
+        run: |
+          for u in http://funpick.kr https://funpick.kr https://www.funpick.kr; do
+            echo "== $u"
+            curl -sS -o /tmp/body -m 20 -w "status=%{http_code} redirect=%{redirect_url} ip=%{remote_ip}\n" "$u" || echo "curl failed (exit $?)"
+            grep -o '<title>[^<]*</title>' /tmp/body 2>/dev/null || true
+          done
+          echo "== TLS certificate (funpick.kr)"
+          echo | openssl s_client -connect funpick.kr:443 -servername funpick.kr 2>/dev/null | openssl x509 -noout -subject -issuer -ext subjectAltName 2>/dev/null || echo "no certificate yet"
