@@ -12,6 +12,10 @@
 - 문의 이메일: `contact-mail` 링크
 - 하단 사업자 정보: `biz` 안의 각 `<dd></dd>`
 
+## 메모
+
+- AI 쇼츠 팩토리 프로 카드의 와디즈 링크(https://www.wadiz.io/web/campaign/detail/414137)는 10월 19일 펀딩 종료 후 교체 예정
+
 ## 커스텀 도메인 (아직 연결 안 함)
 
 funpick.kr 연결은 미리보기 확인 후 진행합니다. DNS는 funpick.kr 본 주소와 www만 바꾸고,
